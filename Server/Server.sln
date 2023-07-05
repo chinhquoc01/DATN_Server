@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server.csproj", "{BA8264EF-7B53-47CF-AA59-EC22F6DEEBD4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "..\Domain\Domain.csproj", "{560B90C4-B7C9-4F13-9D9D-CC888C482844}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "..\Application\Application.csproj", "{6C8605A5-0C04-4E9C-945E-35F2E6DD40AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA8264EF-7B53-47CF-AA59-EC22F6DEEBD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA8264EF-7B53-47CF-AA59-EC22F6DEEBD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA8264EF-7B53-47CF-AA59-EC22F6DEEBD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA8264EF-7B53-47CF-AA59-EC22F6DEEBD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{560B90C4-B7C9-4F13-9D9D-CC888C482844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{560B90C4-B7C9-4F13-9D9D-CC888C482844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{560B90C4-B7C9-4F13-9D9D-CC888C482844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{560B90C4-B7C9-4F13-9D9D-CC888C482844}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C8605A5-0C04-4E9C-945E-35F2E6DD40AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8605A5-0C04-4E9C-945E-35F2E6DD40AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8605A5-0C04-4E9C-945E-35F2E6DD40AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8605A5-0C04-4E9C-945E-35F2E6DD40AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBC765D7-202F-40B5-AC4C-D15D53750573}
+	EndGlobalSection
+EndGlobal
