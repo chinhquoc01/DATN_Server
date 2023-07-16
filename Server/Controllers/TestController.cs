@@ -23,7 +23,7 @@ namespace Server.Controllers
             {
                 var ccAddresses = new List<string>();
                 var bccAddresses = new List<string>();
-                var res = await _amazonEmailService.SendEmailAsync(toAddresses, ccAddresses, bccAddresses, bodyHtml, bodyText, subject, senderAddress);
+                var res = await _amazonEmailService.SendEmailAsync(toAddresses, bodyHtml, bodyText, subject, senderAddress);
                 return Ok(res);
 
             }

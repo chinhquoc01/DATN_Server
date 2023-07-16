@@ -18,7 +18,7 @@ namespace Domain.Repositories
         {
         }
 
-        public async  Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null)
+        public async  Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null, WorkType? workType = null)
         {
             using (var sqlConnection = new MySqlConnection(_connectionString))
             {
@@ -31,13 +31,17 @@ namespace Domain.Repositories
                 DynamicParameters parameters = new DynamicParameters();
                 if (workStatus != null)
                 {
-                    sqlCommand += " and w.Status = @workStatus group by w.Id;";
+                    sqlCommand += " and w.Status = @workStatus ";
                     parameters.Add("@workStatus", (int)workStatus);
                 }
-                else
+                if (workType != null)
                 {
-                    sqlCommand += " group by w.Id;";
+                    sqlCommand += " and w.Type = @workType ";
+                    parameters.Add("@workType", (int)workType);
                 }
+
+                sqlCommand += " group by w.Id;";
+                
 
                 parameters.Add($"@ClientId", clientId.ToString().Trim());
                 var res = await sqlConnection.QueryAsync<WorkDTO>(sqlCommand, parameters);
@@ -45,7 +49,7 @@ namespace Domain.Repositories
             }
         }
 
-        public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome)
+        public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome, string searchQuery, WorkType? workType = null)
         {
             using (var sqlConnection = new MySqlConnection(_connectionString))
             {
@@ -70,8 +74,19 @@ namespace Domain.Repositories
                     $"and (p.FreelancerId is null or p.FreelancerId <> @FreelancerId) " +
                     $"and w.Status = @workStatus ";
                 sqlCommand += skillFilter;
-                sqlCommand += " group by w.Id;";
                 DynamicParameters parameters = new DynamicParameters(); 
+                if (workType != null)
+                {
+                    sqlCommand += " and w.Type = @workType ";
+                    parameters.Add("@workType", (int)workType);
+                }
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    sqlCommand += " and (w.Title like @searchQuery or w.Description like @searchQuery) ";
+                    parameters.Add("@searchQuery", "%" + searchQuery + "%" );
+                }
+
+                sqlCommand += " group by w.Id;";
                 parameters.Add($"@FreelancerId", freelancerId.ToString().Trim());
                 parameters.Add($"@workStatus", (int)WorkStatus.New);
                 var res = await sqlConnection.QueryAsync<WorkDTO>(sqlCommand, parameters);

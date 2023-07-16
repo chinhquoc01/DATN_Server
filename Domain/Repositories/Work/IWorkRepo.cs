@@ -11,8 +11,8 @@ namespace Domain.Repositories
 {
     public interface IWorkRepo : IBaseRepository<Work>
     {
-        Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null);
-        Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome);
+        Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null, WorkType? workType = null);
+        Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome, string searchQuery, WorkType? workType = null);
         Task<List<WorkProposalDTO>> GetProposalList(Guid freelancerId);
 
         Task<bool> UpdateWorkStatus(Guid workId, WorkStatus workStatus);

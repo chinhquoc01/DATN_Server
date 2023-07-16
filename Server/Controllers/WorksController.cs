@@ -18,11 +18,11 @@ namespace Server.Controllers
         }
 
         [HttpGet("get-by-client-id")]
-        public async Task<IActionResult> GetByClientId(Guid clientId, WorkStatus? workStatus = null)
+        public async Task<IActionResult> GetByClientId(Guid clientId, WorkStatus? workStatus = null, WorkType? workType = null)
         {
             try
             {
-                var res = await _workService.GetByClientId(clientId, workStatus);
+                var res = await _workService.GetByClientId(clientId, workStatus, workType);
                 return Ok(res);
 
             }
@@ -37,11 +37,12 @@ namespace Server.Controllers
         }
 
         [HttpPost("suggest-for-freelancer")]
-        public async Task<IActionResult> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome)
+        public async Task<IActionResult> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome, string? searchQuery, WorkType? workType = null)
         {
             try
             {
-                var res = await _workService.GetForFreelancer(freelancerId, skillList, expectIncome);
+                if (searchQuery == null) searchQuery = "";
+                var res = await _workService.GetForFreelancer(freelancerId, skillList, expectIncome, searchQuery, workType);
                 return Ok(res);
             }
             catch (ValidateException ex)
@@ -116,6 +117,20 @@ namespace Server.Controllers
             try
             {
                 var res = await _workService.GetWorkFreelancerDetail(workId, freelancerId);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        [HttpGet("client")]
+        public async Task<IActionResult> GetByClientId(Guid clientId, WorkStatus? workStatus = null)
+        {
+            try
+            {
+                var res = await _workService.GetClientWorks(clientId, workStatus);
                 return Ok(res);
             }
             catch (Exception ex)

@@ -11,8 +11,8 @@ namespace Application.Services
 {
     public interface IWorkService : IBaseService<Work>
     {
-        Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null);
-        Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome);
+        Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null, WorkType? workType = null);
+        Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome, string searchQuery, WorkType? workType = null);
 
         Task<List<WorkProposalDTO>> GetProposalList(Guid freelancerId);
 
@@ -20,5 +20,6 @@ namespace Application.Services
         Task<int> UpdateWorkProgress(Guid workId, int progress);
         Task<WorkFreelancer> GetWorkFreelancerDetail(Guid workId, Guid freelancerId);
         Task<List<Work>> GetFreelancerWorks(Guid freelancerId, WorkStatus? workStatus = null);
+        Task<List<Work>> GetClientWorks(Guid clientId, WorkStatus? workStatus = null);
     }
 }

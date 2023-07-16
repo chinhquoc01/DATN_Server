@@ -19,16 +19,23 @@ namespace Application.Services
             _workRepo = workRepo;
         }
 
-        public async Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null)
+        public async Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null, WorkType? workType = null)
         {
-            var res = await _workRepo.GetByClientId(clientId, workStatus);
+            var res = await _workRepo.GetByClientId(clientId, workStatus, workType);
             res = res.OrderByDescending(x => x.CreatedDate).ToList();
             return res;
         }
 
-        public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome)
+        public async Task<List<Work>> GetClientWorks(Guid clientId, WorkStatus? workStatus = null)
         {
-            var res = await _workRepo.GetForFreelancer(freelancerId, skillList, expectIncome);
+            var res = await GetByFieldValue("ClientId", clientId.ToString());
+            if (workStatus == null) return res;
+            return res.FindAll(el => el.Status == workStatus);
+        }
+
+        public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome, string searchQuery, WorkType? workType = null)
+        {
+            var res = await _workRepo.GetForFreelancer(freelancerId, skillList, expectIncome, searchQuery, workType);
             res = res.OrderByDescending(x => x.CreatedDate).ToList();
             return res;
         }
