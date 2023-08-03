@@ -12,7 +12,7 @@ namespace Application.Services
     public interface IWorkService : IBaseService<Work>
     {
         Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null, WorkType? workType = null);
-        Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome, string searchQuery, WorkType? workType = null);
+        Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, WorkFilter workFilter);
 
         Task<List<WorkProposalDTO>> GetProposalList(Guid freelancerId);
 

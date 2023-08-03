@@ -47,6 +47,7 @@ builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<IAmazonS3Service, AmazonS3Service>();
 builder.Services.AddScoped<IAmazonEmailService, AmazonEmailService>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 
 builder.Services.AddScoped<IUserRepo, UserRepo>();

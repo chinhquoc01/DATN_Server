@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Exceptions;
@@ -37,12 +38,11 @@ namespace Server.Controllers
         }
 
         [HttpPost("suggest-for-freelancer")]
-        public async Task<IActionResult> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome, string? searchQuery, WorkType? workType = null)
+        public async Task<IActionResult> GetForFreelancer([FromQuery] Guid freelancerId, [FromBody] WorkFilter workFilter)
         {
             try
             {
-                if (searchQuery == null) searchQuery = "";
-                var res = await _workService.GetForFreelancer(freelancerId, skillList, expectIncome, searchQuery, workType);
+                var res = await _workService.GetForFreelancer(freelancerId, workFilter);
                 return Ok(res);
             }
             catch (ValidateException ex)

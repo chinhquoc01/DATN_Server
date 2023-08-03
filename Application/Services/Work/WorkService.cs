@@ -33,9 +33,9 @@ namespace Application.Services
             return res.FindAll(el => el.Status == workStatus);
         }
 
-        public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, double expectIncome, string searchQuery, WorkType? workType = null)
+        public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, WorkFilter workFilter)
         {
-            var res = await _workRepo.GetForFreelancer(freelancerId, skillList, expectIncome, searchQuery, workType);
+            var res = await _workRepo.GetForFreelancer(freelancerId, workFilter.SkillList, workFilter.Range, workFilter.SearchQuery, workFilter.Type);
             res = res.OrderByDescending(x => x.CreatedDate).ToList();
             return res;
         }
