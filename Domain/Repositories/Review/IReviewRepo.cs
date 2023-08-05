@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services
+namespace Domain.Repositories
 {
-    public interface IReviewService : IBaseService<Review>
+    public interface IReviewRepo : IBaseRepository<Review>
     {
         Task<List<ReviewDTO>> GetReviewHistory(Guid userId);
     }

@@ -18,7 +18,6 @@ namespace Domain.Entities
         public string? Description { get; set; }
         public string? Location { get; set; }
         public double Budget { get; set; }
-        public BudgetType BudgetType { get; set; }
         public string? FieldTag { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

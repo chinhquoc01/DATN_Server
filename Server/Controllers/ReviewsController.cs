@@ -14,5 +14,19 @@ namespace Server.Controllers
         {
             _reviewService = reviewService;
         }
+
+        [HttpGet("history")]
+        public async Task<IActionResult> GetReviewHistory(Guid userId)
+        {
+            try
+            {
+                var res = await _reviewService.GetReviewHistory(userId);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
     }
 }

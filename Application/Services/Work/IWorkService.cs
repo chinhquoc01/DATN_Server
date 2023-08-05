@@ -21,5 +21,7 @@ namespace Application.Services
         Task<WorkFreelancer> GetWorkFreelancerDetail(Guid workId, Guid freelancerId);
         Task<List<Work>> GetFreelancerWorks(Guid freelancerId, WorkStatus? workStatus = null);
         Task<List<Work>> GetClientWorks(Guid clientId, WorkStatus? workStatus = null);
+
+        Task<List<Work>> GetWorkHistory(Guid userId);
     }
 }

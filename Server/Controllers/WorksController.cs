@@ -138,5 +138,19 @@ namespace Server.Controllers
                 return HandleException(ex);
             }
         }
+
+        [HttpGet("history")]
+        public async Task<IActionResult> GetWorkHistory(Guid userId)
+        {
+            try
+            {
+                var res = await _workService.GetWorkHistory(userId);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
     }
 }

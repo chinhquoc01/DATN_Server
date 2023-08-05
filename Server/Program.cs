@@ -56,6 +56,7 @@ builder.Services.AddScoped<IProposalRepo, ProposalRepo>();
 builder.Services.AddScoped<IMessageRepo, MessageRepo>();
 builder.Services.AddScoped<IContractRepo, ContractRepo>();
 builder.Services.AddScoped<IAttachmentRepo, AttachmentRepo>();
+builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
 var mapperConfig = new MapperConfiguration(mc =>

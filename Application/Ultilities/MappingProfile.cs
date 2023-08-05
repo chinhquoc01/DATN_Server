@@ -16,6 +16,7 @@ namespace Application.Ultilities
             CreateMap<UserDTO, User>();
             CreateMap<User, UserDTO>();
             CreateMap<SignupParam, User>();
+            CreateMap<Review, ReviewDTO>();
 
         }
     }

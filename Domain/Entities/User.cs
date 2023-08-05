@@ -33,6 +33,8 @@ namespace Domain.Entities
         public string IdentityNumber { get; set; }
         public string BankNumber { get; set; }
         public string BankName { get; set; }
+
+        public string WorkField { get; set; }
     }
 
 

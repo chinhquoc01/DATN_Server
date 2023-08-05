@@ -1,7 +1,9 @@
-﻿using Domain.DTOs;
+﻿using Application.AWS;
+using Domain.DTOs;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Repositories;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,9 +16,15 @@ namespace Application.Services
     public class WorkService : BaseService<Work>, IWorkService
     {
         private readonly IWorkRepo _workRepo;
-        public WorkService(IWorkRepo workRepo) : base(workRepo)
+        private readonly IAmazonEmailService _amazonEmailService;
+        private readonly IUserService _userService;
+        private readonly IConfiguration _config;
+        public WorkService(IWorkRepo workRepo, IAmazonEmailService amazonEmailService, IUserService userService, IConfiguration config) : base(workRepo)
         {
             _workRepo = workRepo;
+            _amazonEmailService = amazonEmailService;
+            _userService = userService;
+            _config = config;
         }
 
         public async Task<List<WorkDTO>> GetByClientId(Guid clientId, WorkStatus? workStatus = null, WorkType? workType = null)
@@ -59,9 +67,44 @@ namespace Application.Services
             return res;
         }
 
+        public async Task<List<Work>> GetWorkHistory(Guid userId)
+        {
+            var user = await _userService.GetById(userId);
+            if (user == null)
+            {
+                return new List<Work>();
+            }
+            if (user.UserType == UserType.Client)
+            {
+                var workList = await GetByFieldValue("ClientId", userId);
+                workList = workList.OrderByDescending(el => el.CreatedDate).ToList();
+                return workList;
+            }
+            else if (user.UserType == UserType.Freelancer)
+            {
+                var workList = await GetByFieldValue("FreelancerId", userId);
+                workList = workList.OrderByDescending(el => el.CreatedDate).ToList();
+                return workList;
+            }
+            else return new List<Work>();
+        }
+
         public async Task<int> UpdateWorkProgress(Guid workId, int progress)
         {
-            return await _workRepo.UpdateWorkProgress(workId, progress);
+            var res = await _workRepo.UpdateWorkProgress(workId, progress);
+
+            // send email
+            var clientUrl = _config.GetSection("ClientUrl").Value;
+            var workInfo = await GetById(workId);
+            var clientInfo = await _userService.GetById(workInfo.ClientId);
+            var freelancerInfo = await _userService.GetById(workInfo.FreelancerId);
+            var receiverAddress = new List<string>() { clientInfo.Email };
+            var workUrl = $"{clientUrl}/client/work-detail/{workId}";
+            var bodyHtml = @$"<div>Công việc {workInfo.Title} được cập nhật tiến độ thành {progress}% bởi {freelancerInfo.Name}, chi tiết <a href={workUrl}>Tại đây</a></div>";
+            var title = $"Công việc {workInfo.Title} được cập nhật tiến độ {progress}%";
+            _amazonEmailService.SendEmailAsync(receiverAddress, bodyHtml, "", title);
+
+            return res;
         }
 
         public async Task<bool> UpdateWorkStatus(Guid workId, WorkStatus workStatus)

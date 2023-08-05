@@ -15,7 +15,6 @@ namespace Domain.Entities
         public Guid FreelancerId { get; set; }
         public Guid ProposalId { get; set; }
         public double Budget { get; set; }
-        public BudgetType BudgetType { get; set; }
         public ContractStatus Status { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

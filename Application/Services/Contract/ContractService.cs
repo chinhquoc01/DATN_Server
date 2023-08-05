@@ -44,6 +44,7 @@ namespace Application.Services
                     }
                 }
             }
+            contractList = contractList.OrderByDescending(el => el.CreatedDate).ToList();
             return contractList;
         }
 
