@@ -43,7 +43,7 @@ namespace Application.Services
 
         public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, WorkFilter workFilter)
         {
-            var res = await _workRepo.GetForFreelancer(freelancerId, workFilter.SkillList, workFilter.Range, workFilter.SearchQuery, workFilter.Type);
+            var res = await _workRepo.GetForFreelancer(freelancerId, workFilter.SkillList, workFilter.Range, workFilter.SearchQuery, workFilter.Type, workFilter.WorkField);
             res = res.OrderByDescending(x => x.CreatedDate).ToList();
             return res;
         }

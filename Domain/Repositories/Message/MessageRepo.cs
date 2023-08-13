@@ -16,17 +16,19 @@ namespace Domain.Repositories
         {
         }
 
-        public async Task<List<Message>> GetChatHistory(Guid senderId, Guid receiverId)
+        public async Task<List<Message>> GetChatHistory(Guid senderId, Guid receiverId, int limit, int offset)
         {
             using (var sqlConnection = new MySqlConnection(_connectionString))
             {
                 var sqlCommand = $"select * from message " +
                     $"where (SenderId = @senderId and ReceiverId = @receiverId) " +
                     $"or (SenderId = @receiverId and ReceiverId = @senderId) " +
-                    $"order by CreatedDate;";
+                    $"order by CreatedDate desc limit @limit offset @offset;";
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add($"@senderId", senderId.ToString().Trim());
                 parameters.Add($"@receiverId", receiverId.ToString().Trim());
+                parameters.Add($"@limit", limit);
+                parameters.Add($"@offset", offset);
                 var res = await sqlConnection.QueryAsync<Message>(sqlCommand, parameters);
                 if (res != null) return res.ToList();
                 return null;

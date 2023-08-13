@@ -15,5 +15,7 @@ namespace Application.Services
         Task<bool> SignUp(SignupParam signupParam);
 
         Task<bool> RateUser(Guid userId, double ratePoint);
+
+        Task<List<User>> GetSuggestFreelancer(string workField, string fieldTags);
     }
 }

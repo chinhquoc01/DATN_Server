@@ -14,5 +14,7 @@ namespace Domain.DTOs
         public WorkType? Type { get; set; }
 
         public List<string>? SkillList { get; set; }
+
+        public string WorkField { get; set; }
     }
 }

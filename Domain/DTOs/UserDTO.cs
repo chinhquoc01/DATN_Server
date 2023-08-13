@@ -23,6 +23,8 @@ namespace Domain.DTOs
         public double HourlyRate { get; set; }
         public double Rating { get; set; }
 
+        public string WorkField { get; set; }
+
 
     }
 }

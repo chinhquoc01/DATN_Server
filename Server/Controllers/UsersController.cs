@@ -55,5 +55,19 @@ namespace Server.Controllers
                 return HandleException(ex);
             }
         }
+
+        [HttpGet("suggest-freelancer")]
+        public async Task<IActionResult> GetSuggestFreelancer(string workField, string fieldTags) 
+        {
+            try
+            {
+                var res = await _userService.GetSuggestFreelancer(workField, fieldTags);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
     }
 }

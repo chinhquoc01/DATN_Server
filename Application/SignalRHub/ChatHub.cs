@@ -34,6 +34,7 @@ namespace Application.SignalRHub
             messageObj.ModifiedDate = DateTime.Now;
             Clients.All.SendAsync(GetPrivateMessageChannel(senderId, receiverId), messageObj);
             Clients.All.SendAsync(GetPrivateMessageChannel(receiverId, senderId), messageObj);
+            Clients.All.SendAsync($"Noti-message-{receiverId}", senderId);
             _messageService.Insert(messageObj);
         }
 

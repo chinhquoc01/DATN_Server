@@ -57,5 +57,40 @@ namespace Domain.Repositories
                 return res != 0;
             }
         }
+
+        public async Task<List<User>> GetSuggestFreelancer(string workField, List<string>? listField)
+        {
+            using (var sqlConnection = new MySqlConnection(_connectionString))
+            {
+                var sql = $"select * from {typeof(User).Name.ToLower()} where WorkField = @workField ";
+
+                string skillFilter = "";
+                if (listField != null)
+                {
+                    for (int i = 0; i < listField.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            skillFilter += $" or (Skills like '%{listField[i].Trim()}%' ";
+                        }
+                        else
+                        {
+                            skillFilter += $"OR Skills like '%{listField[i].Trim()}%' ";
+                        }
+                        if (i == listField.Count - 1)
+                        {
+                            skillFilter += ")";
+                        }
+                    }
+                }
+                sql += skillFilter;
+
+                sql += " order by Rating desc; ";
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@workField", workField);
+                var res = await sqlConnection.QueryAsync<User>(sql, parameters);
+                return res.ToList();
+            }
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace Domain.Repositories
             }
         }
 
-        public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, List<int> range, string searchQuery, WorkType? workType = null)
+        public async Task<List<WorkDTO>> GetForFreelancer(Guid freelancerId, List<string> skillList, List<int> range, string searchQuery, WorkType? workType = null, string workField = null)
         {
             using (var sqlConnection = new MySqlConnection(_connectionString))
             {
@@ -90,6 +90,11 @@ namespace Domain.Repositories
                     sqlCommand += " and (w.Budget >= @minRange and w.Budget <= @maxRange) ";
                     parameters.Add("@minRange", range[0]);
                     parameters.Add("@maxRange", range[1]);
+                }
+                if (!string.IsNullOrEmpty(workField))
+                {
+                    sqlCommand += " and (w.WorkField is null or w.WorkField = '' or w.WorkField = @workField) ";
+                    parameters.Add("@workField", workField);
                 }
 
                 sqlCommand += " group by w.Id;";

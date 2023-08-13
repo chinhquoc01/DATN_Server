@@ -11,6 +11,6 @@ namespace Domain.Repositories
     {
         Task<List<User>> GetUserMessage(Guid userId);
 
-        Task<List<Message>> GetChatHistory(Guid senderId, Guid receiverId);
+        Task<List<Message>> GetChatHistory(Guid senderId, Guid receiverId, int limit, int offset);
     }
 }

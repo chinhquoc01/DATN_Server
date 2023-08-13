@@ -4,6 +4,7 @@ using Domain.Entities;
 using Domain.Enums;
 using Domain.Exceptions;
 using Domain.Repositories;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,13 @@ namespace Application.Services
         {
             _userRepo = userRepository;
             _mapper = mapper;
+        }
+
+        public async Task<List<User>> GetSuggestFreelancer(string workField, string fieldTags)
+        {
+            var listField = JsonConvert.DeserializeObject<List<string>>(fieldTags);
+            var listUser = await _userRepo.GetSuggestFreelancer(workField, listField);
+            return listUser;
         }
 
         public async Task<UserDTO> GetUserLogin(LoginParam loginParam)
@@ -62,6 +70,11 @@ namespace Application.Services
             };
 
             var userEntity = _mapper.Map<SignupParam, User>(signupParam);
+            if (userEntity.UserType == UserType.Freelancer)
+            {
+                userEntity.Rating = 4.5;
+            }
+            userEntity.Id = Guid.NewGuid();
             userEntity.Password = BCrypt.Net.BCrypt.HashPassword(signupParam.Password);
             if (userEntity.UserType == UserType.Client)
             {

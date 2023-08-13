@@ -13,5 +13,6 @@ namespace Domain.Repositories
         Task<User> GetUserLogin(LoginParam loginParam);
         Task<bool> CheckValidUserSignUp(SignupParam signupParam);
         Task<bool> RateUser(Guid userId, double ratePoint, int rateCount);
+        Task<List<User>> GetSuggestFreelancer(string workField, List<string>? listField);
     }
 }

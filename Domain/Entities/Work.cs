@@ -21,5 +21,6 @@ namespace Domain.Entities
         public string? FieldTag { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string WorkField { get; set; }
     }
 }

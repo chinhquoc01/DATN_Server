@@ -20,9 +20,10 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Message>> GetChatHistory(Guid senderId, Guid receiverId)
+        public async Task<List<Message>> GetChatHistory(Guid senderId, Guid receiverId, int limit, int offset)
         {
-            var res = await _repo.GetChatHistory(senderId, receiverId);
+            var res = await _repo.GetChatHistory(senderId, receiverId, limit, offset);
+            res = res.OrderBy(el => el.CreatedDate).ToList();
             return res;
         }
 

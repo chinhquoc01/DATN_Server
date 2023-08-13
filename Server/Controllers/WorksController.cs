@@ -3,6 +3,7 @@ using Domain.DTOs;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace Server.Controllers
             _workService = workService;
         }
 
+        [Authorize(Roles = "Client")]
         [HttpGet("get-by-client-id")]
         public async Task<IActionResult> GetByClientId(Guid clientId, WorkStatus? workStatus = null, WorkType? workType = null)
         {
@@ -37,6 +39,7 @@ namespace Server.Controllers
             }
         }
 
+        [Authorize(Roles = "Freelancer")]
         [HttpPost("suggest-for-freelancer")]
         public async Task<IActionResult> GetForFreelancer([FromQuery] Guid freelancerId, [FromBody] WorkFilter workFilter)
         {
@@ -55,6 +58,7 @@ namespace Server.Controllers
             }
         }
 
+        [Authorize(Roles = "Freelancer")]
         [HttpGet("proposal-list")]
         public async Task<IActionResult> GetProposalList(Guid freelancerId)
         {
@@ -83,6 +87,7 @@ namespace Server.Controllers
             }
         }
 
+        [Authorize(Roles = "Freelancer")]
         [HttpPut("update-progress")]
         public async Task<IActionResult> UpdateProgress(Guid workId, int progress)
         {
@@ -125,6 +130,7 @@ namespace Server.Controllers
             }
         }
 
+        [Authorize(Roles = "Client")]
         [HttpGet("client")]
         public async Task<IActionResult> GetByClientId(Guid clientId, WorkStatus? workStatus = null)
         {

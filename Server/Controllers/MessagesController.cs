@@ -33,11 +33,11 @@ namespace Server.Controllers
         }
 
         [HttpGet("history")]
-        public async Task<IActionResult> GetChatHistory(Guid senderId, Guid receiverId)
+        public async Task<IActionResult> GetChatHistory(Guid senderId, Guid receiverId, int limit, int offset)
         {
             try
             {
-                var res = await _messageService.GetChatHistory(senderId, receiverId);
+                var res = await _messageService.GetChatHistory(senderId, receiverId, limit, offset);
                 return Ok(res);
             }
             catch (Exception ex)

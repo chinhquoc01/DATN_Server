@@ -12,6 +12,6 @@ namespace Application.Services
     {
         Task<List<UserDTO>> GetUserMessage(Guid userId);
 
-        Task<List<Message>> GetChatHistory(Guid senderId, Guid receiverId);
+        Task<List<Message>> GetChatHistory(Guid senderId, Guid receiverId, int limit, int offset);
     }
 }
